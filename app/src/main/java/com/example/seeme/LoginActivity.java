@@ -1,6 +1,5 @@
 package com.example.seeme;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -22,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
 
     private TextInputLayout lemail, lpass;
@@ -95,7 +94,7 @@ public class LoginActivity extends AppCompatActivity{
                             userref.child(Uid).child("device_token").setValue(token).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Intent mainintent = new Intent(LoginActivity.this,LoginActivity.class);
+                                    Intent mainintent = new Intent(LoginActivity.this,MainActivity.class);
                                     mainintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(mainintent);
                                     finish();

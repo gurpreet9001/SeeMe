@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        if(mAuth.getCurrentUser() != null)
-            mUserref = FirebaseDatabase.getInstance().getReference().child("Users")
+       // if(mAuth.getCurrentUser() != null)
+           /* mUserref = FirebaseDatabase.getInstance().getReference().child("Users")
                     .child(mAuth.getCurrentUser().getUid());
-
-
+*/
+          //  mUserref=EbjR9opjI1aZydLROn4KxYOMqpx2;
         mviewpager = (ViewPager) findViewById(R.id.tab_pager);
         mPa = new MainPagerAdapter(getSupportFragmentManager());
 
@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                //startActivity(intent);
             }
         });
         fab.show();
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                                startActivity(intent);
+                                //Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                                //startActivity(intent);
                             }
                         });
                         fab.show();
@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(MainActivity.this, UsersActivity.class);
-                                startActivity(intent);
+                               // Intent intent = new Intent(MainActivity.this, UsersActivity.class);
+                               // startActivity(intent);
                             }
                         });
                         fab.show();

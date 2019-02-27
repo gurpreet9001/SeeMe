@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
-public class MainPagerAdapter extends FragmentPagerAdapter {
+class MainPagerAdapter extends FragmentPagerAdapter {
 
 
     public MainPagerAdapter(FragmentManager fm) {
@@ -19,12 +19,12 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 //YET TO IMPLEMENT THESE THREE
 //
         switch (position){
-            case 1: ChatsFragment chatsFragment = new ChatsFragment();
-                return chatsFragment;
-            case 2: FriendsFragment friendsFragment = new FriendsFragment();
-                return friendsFragment;
-            case 0: PostsFragment postsFragment = new PostsFragment();
-                return postsFragment;
+//            case 1: ChatsFragment chatsFragment = new ChatsFragment();
+//                return chatsFragment;
+//            case 2: FriendsFragment friendsFragment = new FriendsFragment();
+//                return friendsFragment;
+//            case 0: PostsFragment postsFragment = new PostsFragment();
+//                return postsFragment;
             default: return null;
         }
 
