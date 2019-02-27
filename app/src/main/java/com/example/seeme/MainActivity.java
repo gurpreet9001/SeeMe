@@ -61,32 +61,27 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-       // if(mAuth.getCurrentUser() != null)
-           /* mUserref = FirebaseDatabase.getInstance().getReference().child("Users")
+        if(mAuth.getCurrentUser() != null)
+            mUserref = FirebaseDatabase.getInstance().getReference().child("Users")
                     .child(mAuth.getCurrentUser().getUid());
-*/
-          //  mUserref=EbjR9opjI1aZydLROn4KxYOMqpx2;
         mviewpager = (ViewPager) findViewById(R.id.tab_pager);
         mPa = new MainPagerAdapter(getSupportFragmentManager());
 
         mviewpager.setAdapter(mPa);
 
+///SET FLOATING BUTTON AS ADD POST WHEN APP IS LAUNCHED
 
         mTabLayout.setupWithViewPager(mviewpager);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                startActivity(intent);
             }
         });
         fab.show();
 
 
-
-//
-//YET TO IMPLEMENT ADDPOST AND USERACTIVITY
-//
 
         mviewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -98,16 +93,18 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
+                        ///SET FLOATING BUTTON AS ADD POST WHEN TAB IS SCROLLED TO TIMELINE
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                                //startActivity(intent);
+                                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+                                startActivity(intent);
                             }
                         });
                         fab.show();
                         break;
                     case 2:
+                        ///SET FLOATING BUTTON AS SEARCH USER WHEN TAB IS SCROLLED TO FRIENDS
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
