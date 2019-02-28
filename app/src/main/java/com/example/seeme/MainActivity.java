@@ -58,20 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
+
         mAuth = FirebaseAuth.getInstance();
-
-
         if(mAuth.getCurrentUser() != null)
-            mUserref = FirebaseDatabase.getInstance().getReference().child("Users")
-                    .child(mAuth.getCurrentUser().getUid());
+            mUserref = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
         mviewpager = (ViewPager) findViewById(R.id.tab_pager);
         mPa = new MainPagerAdapter(getSupportFragmentManager());
 
         mviewpager.setAdapter(mPa);
 
-///SET FLOATING BUTTON AS ADD POST WHEN APP IS LAUNCHED
-
+//SET THE TABS
+//THREE TABS ARE HANDLED IN MAINACTIVITY ADAPTERS
         mTabLayout.setupWithViewPager(mviewpager);
+
+
+///SET FLOATING BUTTON AS ADD POST WHEN APP IS LAUNCHED
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         fab.show();
 
 
-
+//TABS HANDLING
         mviewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -19,12 +19,13 @@ class MainPagerAdapter extends FragmentPagerAdapter {
 //YET TO IMPLEMENT THESE THREE
 //
         switch (position){
+//            case 0: PostsFragment postsFragment = new PostsFragment();
+//                return postsFragment;
 //            case 1: ChatsFragment chatsFragment = new ChatsFragment();
 //                return chatsFragment;
 //            case 2: FriendsFragment friendsFragment = new FriendsFragment();
 //                return friendsFragment;
-//            case 0: PostsFragment postsFragment = new PostsFragment();
-//                return postsFragment;
+
             default: return null;
         }
 

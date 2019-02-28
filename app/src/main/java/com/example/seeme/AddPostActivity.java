@@ -71,7 +71,7 @@ public class AddPostActivity extends AppCompatActivity {
 
 
         pd = new ProgressDialog(this);
-
+//App Bar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.new_post_appbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Share");
@@ -87,7 +87,6 @@ public class AddPostActivity extends AppCompatActivity {
         postsToShowRef = FirebaseDatabase.getInstance().getReference().child("PostsToShow");
         usersPostRef = FirebaseDatabase.getInstance().getReference().child("UsersPost").child(Uid);
         friendsRef = FirebaseDatabase.getInstance().getReference().child("Friends").child(Uid);
-
         mStorageref = FirebaseStorage.getInstance().getReference();
 
         allPostsRef.keepSynced(true);
@@ -95,11 +94,11 @@ public class AddPostActivity extends AppCompatActivity {
         usersPostRef.keepSynced(true);
         friendsRef.keepSynced(true);
 
-
         post_image_but = (Button) findViewById(R.id.new_post_addphoto_but);
         submit_post_but = (Button) findViewById(R.id.sub_post_but);
         post_text_et = (EditText) findViewById(R.id.new_post_text);
         post_imageView = (ImageView) findViewById(R.id.new_post_image);
+
 
         friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -117,26 +116,25 @@ public class AddPostActivity extends AppCompatActivity {
 
         friends_IdList.add(Uid);
 
+        //DIRECTLY GO TO CROP ACTIVITY WHEN PICTURE IS TAKEN OR SELECTED
         post_image_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                CropImage.activity()
-                        .start(AddPostActivity.this);
+                CropImage.activity().start(AddPostActivity.this);
 
             }
         });
+
 
 
         submit_post_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-
                 pd.setMessage("Sharing...");
                 pd.show();
-
+                pd.setCanceledOnTouchOutside(false);
                 final String text = post_text_et.getText().toString();
 
                 DatabaseReference userpost_push = allPostsRef.push();
