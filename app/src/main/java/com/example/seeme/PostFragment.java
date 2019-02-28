@@ -277,11 +277,11 @@ class PostsFragment extends Fragment{
                 viewHolder.comments_but.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent commentIntent = new Intent(getActivity(),CommentsActivity.class);
-//                        commentIntent.putExtra("moment_id",moment_id);
-//                        commentIntent.putExtra("name",By);
-//                        commentIntent.putExtra("time",momentposttime);
-//                        startActivity(commentIntent);
+                        Intent commentIntent = new Intent(getActivity(),CommentsActivity.class);
+                        commentIntent.putExtra("moment_id",moment_id);
+                        commentIntent.putExtra("name",By);
+                        commentIntent.putExtra("time",momentposttime);
+                        startActivity(commentIntent);
                     }
                 });
 

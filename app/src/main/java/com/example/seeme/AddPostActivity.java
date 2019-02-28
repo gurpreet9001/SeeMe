@@ -71,7 +71,8 @@ public class AddPostActivity extends AppCompatActivity {
 
 
         pd = new ProgressDialog(this);
-//App Bar
+
+        //App Bar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.new_post_appbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Share");
@@ -100,6 +101,7 @@ public class AddPostActivity extends AppCompatActivity {
         post_imageView = (ImageView) findViewById(R.id.new_post_image);
 
 
+     //GET FRIENDS LIST
         friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,7 +109,6 @@ public class AddPostActivity extends AppCompatActivity {
                     friends_IdList.add(ds.getKey());
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -126,8 +127,7 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
 
-
-
+        //SHARE BUTTON SUBMIT
         submit_post_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,7 +248,6 @@ public class AddPostActivity extends AppCompatActivity {
     ///when photo is selected it is immediately goes for getting crop
     ///if we hit back then no changes will be made
     ///to select full image crop it to full
-    ///
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
