@@ -224,9 +224,9 @@ public class CommentsActivity extends AppCompatActivity {
                 viewHolder.profile_view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent profIntent = new Intent(CommentsActivity.this,ProfileActivity.class);
-//                        profIntent.putExtra("from_user_id",By);
-//                        startActivity(profIntent);
+                       Intent profIntent = new Intent(CommentsActivity.this,ProfileActivity.class);
+                        profIntent.putExtra("from_user_id",By);
+                        startActivity(profIntent);
                     }
                 });
 

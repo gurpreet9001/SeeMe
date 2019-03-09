@@ -100,15 +100,9 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                 }
                             });
-
-
-
                         }else {
-
                             pd.hide();
                             Toast.makeText(LoginActivity.this,"Error",Toast.LENGTH_SHORT).show();
-
-
                         }
                     }
                 });

@@ -102,10 +102,10 @@ public class FriendsFragment extends Fragment {
                                                 startActivity(profIntent);
                                             }
                                             if(which==1){
-//                                                Intent chatIntent = new Intent(getContext(),ChatActivity.class);
-//                                                chatIntent.putExtra("from_user_id",friend_user_id);
-//                                                chatIntent.putExtra("from_username",username);
-//                                                startActivity(chatIntent);
+                                                Intent chatIntent = new Intent(getContext(),ChatActivity.class);
+                                                chatIntent.putExtra("from_user_id",friend_user_id);
+                                                chatIntent.putExtra("from_username",username);
+                                                startActivity(chatIntent);
                                             }
                                     }
                                 });

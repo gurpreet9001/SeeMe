@@ -182,18 +182,18 @@ public class ProfileActivity extends AppCompatActivity {
         mprofile_friends_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent friendProfileIntent = new Intent(ProfileActivity.this,UserFriendsActivity.class);
-//                friendProfileIntent.putExtra("user_id",user_key);
-//                startActivity(friendProfileIntent);
+                Intent friendProfileIntent = new Intent(ProfileActivity.this,UserFriendsActivity.class);
+                friendProfileIntent.putExtra("user_id",user_key);
+                startActivity(friendProfileIntent);
             }
         });
    //POSTS OF THE USER
         mprofile_moments_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent friendmomentIntent = new Intent(ProfileActivity.this,UserMomentsActivity.class);
-//                friendmomentIntent.putExtra("user_id",user_key);
-//                startActivity(friendmomentIntent);
+                Intent friendmomentIntent = new Intent(ProfileActivity.this,UserMomentsActivity.class);
+                friendmomentIntent.putExtra("user_id",user_key);
+                startActivity(friendmomentIntent);
             }
         });
 

@@ -172,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    //IF HIT LOGOUT THAN PAS USER TO START ACTIVITY
+    //IF HIT LOGOUT THAN PASS USER TO START ACTIVITY
     public void sendToStart(){
         Intent start_int = new Intent(SettingsActivity.this, StartActivity.class);
         startActivity(start_int);
@@ -208,18 +208,18 @@ public class SettingsActivity extends AppCompatActivity {
         mprofile_friends_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent friendProfileIntent = new Intent(SettingsActivity.this,UserFriendsActivity.class);
-//                friendProfileIntent.putExtra("user_id",Uid);
-//                startActivity(friendProfileIntent);
+                Intent friendProfileIntent = new Intent(SettingsActivity.this,UserFriendsActivity.class);
+                friendProfileIntent.putExtra("user_id",Uid);
+                startActivity(friendProfileIntent);
             }
         });
 
         mprofile_moments_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent friendmomentIntent = new Intent(SettingsActivity.this,UserMomentsActivity.class);
-//                friendmomentIntent.putExtra("user_id",Uid);
-//                startActivity(friendmomentIntent);
+                Intent friendmomentIntent = new Intent(SettingsActivity.this,UserMomentsActivity.class);
+                friendmomentIntent.putExtra("user_id",Uid);
+                startActivity(friendmomentIntent);
             }
         });
     }

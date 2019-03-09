@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.app_name);
 
-
-
         mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         fab = (FloatingActionButton) findViewById(R.id.fab_add);
 
@@ -109,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                               // Intent intent = new Intent(MainActivity.this, UsersActivity.class);
-                               // startActivity(intent);
+                                Intent intent = new Intent(MainActivity.this, UsersActivity.class);
+                                startActivity(intent);
                             }
                         });
                         fab.show();
@@ -121,11 +119,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
-
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
 
     }

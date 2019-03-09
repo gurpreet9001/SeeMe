@@ -49,11 +49,14 @@ public class ChatsFragment extends Fragment {
     private RecyclerView chats_rv;
     private DatabaseReference chatRef;
     private DatabaseReference rootRef;
+    private DatabaseReference pubkeyref;
     private DatabaseReference userRef;
     private DatabaseReference messageRef;
     private LinearLayoutManager llm;
     private FirebaseAuth mAuth;
+    private String privateKeyString;
     public String MY_PREFS_NAME = "socio_prefs";
+    private int crypted = 0;
 
     @Nullable
     @Override
@@ -69,6 +72,7 @@ public class ChatsFragment extends Fragment {
         rootRef = FirebaseDatabase.getInstance().getReference();
         chatRef = FirebaseDatabase.getInstance().getReference().child("Chat");
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        pubkeyref = FirebaseDatabase.getInstance().getReference().child("PubKey");
         messageRef = FirebaseDatabase.getInstance().getReference().child("messages").child(Uid);
 
 
@@ -80,14 +84,15 @@ public class ChatsFragment extends Fragment {
         chats_rv.setHasFixedSize(true);
         chats_rv.setLayoutManager(llm);
 
+
         return v;
     }
 
-    //LASTEST ONLINE STATUS
     @Override
     public void onPause() {
         super.onPause();
         FirebaseUser curr_user = mAuth.getCurrentUser();
+
         if (curr_user != null) {
             rootRef.child("Users").child(curr_user.getUid()).child("online").setValue(ServerValue.TIMESTAMP);
         }
@@ -98,8 +103,12 @@ public class ChatsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME,getActivity().MODE_PRIVATE);
+        privateKeyString = prefs.getString("private_key"+mAuth.getCurrentUser().getUid(), null);
+
 
         FirebaseUser curr_user = mAuth.getCurrentUser();
+
         if (curr_user != null) {
             rootRef.child("Users").child(curr_user.getUid()).child("online").setValue("true");
         }
@@ -114,6 +123,7 @@ public class ChatsFragment extends Fragment {
             @Override
             protected void populateViewHolder(final ChatsViewHolder viewHolder, Chats model, int position) {
 
+
                 final String chat_user_id = getRef(position).getKey();
 
                 //PRESS AND HOLD ON CHAT LIST VIEW ITEM OF ANY CHAT TO GET OPTION TO DELETE CHAT
@@ -121,13 +131,16 @@ public class ChatsFragment extends Fragment {
                     @Override
                     public boolean onLongClick(View v) {
 
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                         alertDialogBuilder.setTitle("Clear Chat?").setPositiveButton("Clear", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
+
                                 Map delchatmap = new HashMap();
                                 delchatmap.put("Chat"+"/"+Uid+"/"+chat_user_id,null);
                                 delchatmap.put("messages"+"/"+Uid+"/"+chat_user_id,null);
+
 
                                 rootRef.updateChildren(delchatmap).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
@@ -140,17 +153,21 @@ public class ChatsFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         }).show();
+
                         return true;
                     }
                 });
+
 
                 //CHANGE THE VALUE OF ONLINE STATUS IN LIST IF USER IS ONLINE
                 userRef.child(chat_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
                         final String username;
                         username = dataSnapshot.child("name").getValue().toString();
                         String thumbimage = dataSnapshot.child("thumb_image").getValue().toString();
+
                         if(dataSnapshot.hasChild("online")) {
                             String useronline = dataSnapshot.child("online").getValue().toString();
                             viewHolder.setUserOnline(useronline);
@@ -158,19 +175,83 @@ public class ChatsFragment extends Fragment {
                         viewHolder.setName(username);
                         viewHolder.setDp(thumbimage,getContext());
 
-                   //PRESS ON LIST ITEM TO CHAT WITH USER
+                        //PRESS ON LIST ITEM TO CHAT WITH USER
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                Intent chatIntent = new Intent(getContext(),ChatActivity.class);
-//                                chatIntent.putExtra("from_user_id",chat_user_id);
-//                                chatIntent.putExtra("from_username",username);
-//                                startActivity(chatIntent);
+
+                                Intent chatIntent = new Intent(getContext(),ChatActivity.class);
+                                chatIntent.putExtra("from_user_id",chat_user_id);
+                                chatIntent.putExtra("from_username",username);
+                                startActivity(chatIntent);
+
                             }
                         });
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) { }
+                });
+
+
+                pubkeyref.child(chat_user_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("pub")) {
+                            crypted = 1;
+                        }else{
+                            crypted = 0;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) { }
+                });
+
+                //DECRYPT LAST MESSAGE TO SHOW IN THE LIST VIEW
+                Query lastquery;
+                lastquery = messageRef.child(chat_user_id).orderByKey().limitToLast(1);
+                lastquery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String lastmessage;
+
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            if(child.child("type").getValue().toString().equals("image"))
+                                lastmessage = "Image";
+                            else
+                                lastmessage = child.child("message").getValue().toString();
+
+                            String decryptedmessage = lastmessage;
+                            RSAAlgo rsaAlgo = new RSAAlgo();
+                            if(privateKeyString!=null && decryptedmessage.length()>100 && !decryptedmessage.contains(" ")) {
+                                try {
+                                    decryptedmessage = rsaAlgo.Decrypt(lastmessage, privateKeyString);
+                                } catch (NoSuchAlgorithmException e) {
+                                    e.printStackTrace();
+                                } catch (NoSuchPaddingException e) {
+                                    e.printStackTrace();
+                                } catch (InvalidKeyException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalBlockSizeException e) {
+                                    e.printStackTrace();
+                                } catch (BadPaddingException e) {
+                                    e.printStackTrace();
+                                } catch (InvalidKeySpecException e) {
+                                    e.printStackTrace();
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if(crypted==1)
+                                viewHolder.setLastmessage(decryptedmessage);
+                            else
+                                viewHolder.setLastmessage(lastmessage);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 });
             }
         };
@@ -186,13 +267,12 @@ public class ChatsFragment extends Fragment {
                 llm.setStackFromEnd(true);
             }
         });
+
     }
 
 
     public static class ChatsViewHolder extends RecyclerView.ViewHolder{
-
         View mView;
-
         public ChatsViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
@@ -214,6 +294,7 @@ public class ChatsFragment extends Fragment {
 
         public void setUserOnline(String online){
             ImageView onlineView = (ImageView)  mView.findViewById(R.id.user_item_online);
+
             if(online.equals("true")){
                 onlineView.setVisibility(View.VISIBLE);
             }else{
